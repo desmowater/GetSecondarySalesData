@@ -2,6 +2,11 @@ import axios from 'axios';
 import fs from 'fs';
 
 /**
+ * @notice 対象とするコントラクトアドレスを記入
+ */
+const contractAddress = "0x99f419934192F8dE7bf53B490D5BdB88527654BF";
+
+/**
  * メイン処理
  */
 async function main() {
@@ -62,7 +67,7 @@ async function getData(pageKey) {
 			method: 'GET',
 			url: 'https://api.reservoir.tools/sales/v6',
 			params: {
-				contract: process.env.CONTRACT_ADDRESS,
+				contract: contractAddress,
 			},
 			headers: { accept: '*/*', 'x-api-key': process.env.RESERVOIR_API_KEY }
 		};
@@ -71,7 +76,7 @@ async function getData(pageKey) {
 			method: 'GET',
 			url: 'https://api.reservoir.tools/sales/v6',
 			params: {
-				contract: process.env.CONTRACT_ADDRESS,
+				contract: contractAddress,
 				continuation: `${pageKey}`
 			},
 			headers: { accept: '*/*', 'x-api-key': process.env.RESERVOIR_API_KEY }
