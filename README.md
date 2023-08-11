@@ -1,7 +1,7 @@
 # GetSecondarySalesData
 2次売買のデータを取得するnode.js用のプログラムです。
 取得元はReseroirが提供しているSales APIです。
-イーサリアムチェーン✕ERC721ではうまく動作しました。
+イーサリアムチェーンではうまく動作しました。
 
 https://docs.reservoir.tools/reference/getsalesv6
 
