@@ -1,19 +1,16 @@
 import axios from 'axios';
 import fs from 'fs';
 
-// データを取得するコレクションのコントラクトアドレス
-const contractAddress = "0x327879ED99ea43Cf0a7a31034eDF7C8F17D63FbD"
-
 /**
  * メイン処理
  */
 async function main() {
 	let whileLoopFlag = true;
 	let firstTimeFlag = true;
-	let pageKey = '';	//APIが返す改ページ用のキー
+	let pageKey = '';	// APIが返す改ページ用のキー
 
-	// 出力ファイルの準備 "w"->「書き込みで開く。既存ファイルは削除される。」モード
-	fs.open('Sales.csv', "w", (err, fd) => {
+	// 出力ファイルの準備 "w"->「書き込みで開く。既存ファイルは削除される」モード
+	fs.open('Sales.csv', "w", (err) => {
 		if (err) { console.log("ファイルが開けない"); }
 	});
 	fs.appendFileSync('Sales.csv', `date,tokenId,from,to,price\n`)
@@ -42,7 +39,7 @@ async function main() {
 			// pageKeyの格納
 			pageKey = output.continuation
 
-			//pageKeyが出なくなったらループを抜ける
+			// pageKeyが出なくなったらループを抜ける
 			if (pageKey == null || pageKey == '') {
 				whileLoopFlag = false
 			}
@@ -65,7 +62,7 @@ async function getData(pageKey) {
 			method: 'GET',
 			url: 'https://api.reservoir.tools/sales/v6',
 			params: {
-				contract: '0x327879ED99ea43Cf0a7a31034eDF7C8F17D63FbD',
+				contract: process.env.CONTRACT_ADDRESS,
 			},
 			headers: { accept: '*/*', 'x-api-key': process.env.RESERVOIR_API_KEY }
 		};
@@ -74,7 +71,7 @@ async function getData(pageKey) {
 			method: 'GET',
 			url: 'https://api.reservoir.tools/sales/v6',
 			params: {
-				contract: contractAddress,
+				contract: process.env.CONTRACT_ADDRESS,
 				continuation: `${pageKey}`
 			},
 			headers: { accept: '*/*', 'x-api-key': process.env.RESERVOIR_API_KEY }
@@ -92,7 +89,6 @@ async function getData(pageKey) {
 		});
 
 	return outputData;
-
 }
 
 main()
